@@ -64,7 +64,6 @@ public class TestXhtmlResponseHandler {
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(result.getDocument());
 		Assert.assertSame(resp, result.getHttpResponse());
-		Assert.assertTrue(entity.fullyConsumed());
 	}
 	
 	@Test
@@ -85,7 +84,6 @@ public class TestXhtmlResponseHandler {
 		Assert.assertNotNull(result);
 		Assert.assertNull(result.getDocument());
 		Assert.assertSame(resp, result.getHttpResponse());
-		Assert.assertTrue(entity.fullyConsumed());
 	}
 	
 	@Test
