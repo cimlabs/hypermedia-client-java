@@ -22,7 +22,10 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 
-
+/**
+ * Convenience wrapper around {@link HttpClient} that asks for and parses
+ * XHTML responses from the server.
+ */
 public class XhtmlHttpClient {
 	
 	private static final String ACCEPT_HEADER = "application/xhtml+xml,*/*;q=0.9";
@@ -34,7 +37,15 @@ public class XhtmlHttpClient {
 		this.httpClient = hc;
 		this.xhtmlResponseHandlerFactory = xrhf;
 	}
-	
+
+	/**
+	 * Executes the given HTTP request and returns the next
+	 * application state.
+	 * @param req HTTP request to execute
+	 * @return new application state
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
 	public XhtmlApplicationState execute(HttpUriRequest req) 
 			throws ClientProtocolException, IOException {
 		req.setHeader("Accept",ACCEPT_HEADER);

@@ -30,6 +30,13 @@ public class XhtmlApplicationState {
 	private HttpResponse httpResponse;
 	private Document document;
 	
+	/**
+	 * Constructs a new application state.
+	 * @param context the URL used to retrieve the response; this is needed
+	 *   for understanding relative URLs present in hypermedia controls.
+	 * @param resp response sent by the server
+	 * @param doc parsed response body
+	 */
 	public XhtmlApplicationState(URL context, HttpResponse resp, Document doc) {
 		this.context = context;
 		this.httpResponse = resp;
@@ -61,6 +68,9 @@ public class XhtmlApplicationState {
 	 */
 	public HttpResponse getHttpResponse() { return httpResponse; }
 
+	/** 
+	 * @return {@code true} iff the response had a 2XX status code
+	 */
 	public boolean succeeded() {
 		int status = httpResponse.getStatusLine().getStatusCode();
 		return (status >= 200 && status <= 299);

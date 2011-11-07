@@ -25,6 +25,9 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
+/** Convenience class for moving from one application state to another
+ * by following a link or submitting a form.
+ */
 public class XhtmlNavigator {
 
 	private XhtmlParser parser;
@@ -37,12 +40,35 @@ public class XhtmlNavigator {
 		this.client = xhc;
 	}
 
+	/**
+	 * Follow an &lt;a&gt; tag with the given link relation.
+	 * @param state current application state
+	 * @param rel link relation that must appear in the @rel
+	 *   attribute of a link
+	 * @return next application state
+	 * @throws JDOMException
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
 	public XhtmlApplicationState followLink(XhtmlApplicationState state, String rel)
 	    throws JDOMException, ClientProtocolException, IOException {
 		Element a = parser.getLinkWithRelation(state.getDocument(), rel);
 		return traverseAnchor(state, rel, a);
 	}
 
+	/**
+	 * Follow an &lt;a&gt; tag with the given link relation, starting
+	 * the search from a given context in a parsed document.
+	 * @param state current application state
+	 * @param root element within the application state at which the
+	 *   search for the link should begin
+	 * @param rel link relation that must appear in the @rel
+	 *   attribute of a link
+	 * @return next application state
+	 * @throws JDOMException
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
 	public XhtmlApplicationState followLink(XhtmlApplicationState state, Element root,
 			String rel) throws JDOMException, ClientProtocolException,
 			IOException {
@@ -50,6 +76,7 @@ public class XhtmlNavigator {
 		return traverseAnchor(state, rel, a);
 	
 	}
+	
 	private XhtmlApplicationState traverseAnchor(XhtmlApplicationState state,
 			String rel, Element a)
 	    throws MalformedURLException, ClientProtocolException, IOException {
@@ -64,6 +91,17 @@ public class XhtmlNavigator {
 		return result;
 	}
 
+	/**
+	 * Submits a form with the given @name, using the provided arguments.
+	 * @param state current application state
+	 * @param formName name of the form to submit
+	 * @param args a map of input names to values to provide for those
+	 *   inputs when submitting the form
+	 * @return next application state
+	 * @throws JDOMException
+	 * @throws ParseException
+	 * @throws IOException
+	 */
 	public XhtmlApplicationState submitForm(XhtmlApplicationState state, String formName,
 			Map<String, String> args)
 	    throws JDOMException, ParseException, IOException {

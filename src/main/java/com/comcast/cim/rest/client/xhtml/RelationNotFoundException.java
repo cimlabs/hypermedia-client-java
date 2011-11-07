@@ -15,6 +15,12 @@
 */
 package com.comcast.cim.rest.client.xhtml;
 
+/**
+ * This exception is raised when the client is asked to follow a
+ * link with a certain link relation or to submit a form with a
+ * given class, but no such link or form can be found in the
+ * current application state.
+ */
 public class RelationNotFoundException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;

@@ -35,9 +35,24 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.xpath.XPath;
 
-
+/**
+ * Used for constructing HTTP requests from hypermedia controls
+ * (links and forms) presented by the server.
+ */
 public class RequestBuilder {
 
+    /**
+     * Constructs a GET request used to follow a link.
+     * @param a The &lt;a&gt; tag in a parsed response body that
+     *   is the link we want to follow.
+     * @param context The URL used to retrieve the current
+     *   application state (parsed response body), needed so we
+     *   can properly interpret relative URLs.
+     * @return {@link HttpUriRequest}
+     * @throws MalformedURLException if the @href attribute of
+     *   the tag cannot be combined with the current URL context
+     *   to form a valid URL.
+     */
 	public HttpUriRequest followLink(Element a, URL context) throws MalformedURLException {
 		if (!"a".equalsIgnoreCase(a.getName())) {
 			throw new IllegalArgumentException("can only follow links on <a> tags");
@@ -50,6 +65,29 @@ public class RequestBuilder {
 		return new HttpGet(derived.toString());
 	}
 
+	/**
+	 * Constructs a GET or POST request used to submit a form.
+	 * The HTTP method used is taken from the form's @method
+	 * attribute.
+	 * @param form The &lt;form&gt; element from the current
+	 *   application state which is the form that should be
+	 *   submitted.
+	 * @param context The URL used to retrieve the current
+	 *   application state (parsed response body). This is 
+	 *   used if the form has a relative URL as its @action.
+	 * @param args A map of input names to values. For each
+	 *   &lt;input&gt; or &lt;select&gt; element in the form,
+	 *   if its @name is a key in {@code args} then the value
+	 *   in {@code args} is used as the value in the form
+	 *   submission. If an input's @name is not found in
+	 *   {@code args} then it will be submitted with whatever
+	 *   default value is present.
+	 * @return A request that can be issued to submit the
+	 *   form. 
+	 * @throws JDOMException
+	 * @throws ParseException
+	 * @throws IOException
+	 */
 	public HttpUriRequest submitForm(Element form, URL context, Map<String, String> args)
 		throws JDOMException, ParseException, IOException {
 		String formMethod = form.getAttributeValue("method");

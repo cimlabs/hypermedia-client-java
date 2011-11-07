@@ -17,6 +17,10 @@ package com.comcast.cim.rest.client.xhtml;
 
 import org.apache.http.HttpResponse;
 
+/**
+ * Exception that wraps a server response whose status code
+ * does not reflect success (e.g. a 500 error).
+ */
 public class ServerErrorException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
@@ -30,6 +34,9 @@ public class ServerErrorException extends RuntimeException {
 		super(resp.getStatusLine().toString());
 		this.resp = resp;
 	}
-	
+
+	/**  
+	 * @return the server response indicating an error
+	 */
 	public HttpResponse getResponse() { return resp; }
 }

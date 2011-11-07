@@ -1,1 +1,12 @@
-Initial README for project skeleton.
+This library provides a foundation for building XHTML hypermedia API
+clients. The major notion of a hypermedia API is that clients start from
+a known entry-point URL and proceed to use the API by following links and
+submitting forms--exactly the way humans do when they use the web. This
+style of API provides a lot of server-side flexibility in terms of
+controlling its own URL space, since clients never construct URLs
+themselves. Instead, clients construct their HTTP requests by following the
+existing, standardized semantics for HTTP <a> and <form> elements, which
+means the mechanisms for those requests are under the server's control.
+
+See also the "Hypermedia APIs" talk given by Jon Moore at Øredev 2010:
+http://oredev.org/2010/sessions/hypermedia-apis
