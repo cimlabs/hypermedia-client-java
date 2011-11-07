@@ -37,12 +37,10 @@ public class XhtmlHttpClient {
 	
 	public XhtmlApplicationState execute(HttpUriRequest req) 
 			throws ClientProtocolException, IOException {
-		long start = System.currentTimeMillis();
 		req.setHeader("Accept",ACCEPT_HEADER);
 		URL context = new URL(req.getURI().toString());
 		XhtmlResponseHandler rh = xhtmlResponseHandlerFactory.get(context);
 		XhtmlApplicationState state = httpClient.execute(req, rh);
-		long end = System.currentTimeMillis();
 		return state;
 	}
 

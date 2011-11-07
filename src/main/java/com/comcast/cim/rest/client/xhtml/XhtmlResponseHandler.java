@@ -24,6 +24,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.util.EntityUtils;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -60,12 +61,12 @@ public class XhtmlResponseHandler implements ResponseHandler<XhtmlApplicationSta
 			Document doc = null;
 			if (entity != null) { 
 				doc = builder.build(entity.getContent());
-				entity.consumeContent();
+				EntityUtils.consume(entity);
 			}
 			return new XhtmlApplicationState(context, resp, doc);
 		} catch (JDOMException e) {
 			logger.warn("unparseable XML response",e);
-			entity.consumeContent();
+			EntityUtils.consume(entity);
 			return new XhtmlApplicationState(context, resp, null);
 		}
 	}

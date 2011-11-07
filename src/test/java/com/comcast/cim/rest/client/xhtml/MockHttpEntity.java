@@ -30,7 +30,8 @@ public class MockHttpEntity extends ByteArrayEntity {
 		super(b);
 	}
 
-	@Override
+	@SuppressWarnings("deprecation")
+    @Override
 	public void consumeContent() throws IOException {
 		super.consumeContent();
 		contentConsumedFully = true;
